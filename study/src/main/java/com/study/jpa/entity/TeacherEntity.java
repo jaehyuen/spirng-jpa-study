@@ -42,7 +42,9 @@ public class TeacherEntity extends BaseEntity {
 	@Column(name = "SUBJECT", nullable = true)
 	private int subject;
 	
-	@Column(name = "SCHOOL", nullable = true)
-	private String school;
+////	@ManyToOne(targetEntity = SchoolEntity.class)
+////	@JoinColumn(name = "SCHOOL_SCHOOL_SEQ")
+//	@Column(name = "SCHOOL_SCHOOL_SEQ")
+//	private String school;
 
 }

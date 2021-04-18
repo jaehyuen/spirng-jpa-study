@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "student")
 @AllArgsConstructor
@@ -26,21 +26,23 @@ public class StudentEntity extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "STUDENT_SEQ")
 	private Long studentSeq;
-	
-	@Column(name = "NAME", nullable = false)
+
+	@Column(name = "NAME", nullable = false, unique = true)
 	private String name;
-	
+
 	@ManyToOne(targetEntity = GroupEntity.class)
 	@JoinColumn(name = "GROUP_GROUP_SEQ")
 	private GroupEntity group;
-	
+
 	@Column(name = "AGE", nullable = false)
 	private int age;
-	
+
 	@Column(name = "GRADE", nullable = true)
 	private int grade;
-	
-	@Column(name = "SCHOOL", nullable = true)
-	private String school;
+
+////	@ManyToOne(targetEntity = SchoolEntity.class)
+////	@JoinColumn(name = "SCHOOL_SCHOOL_SEQ")
+//	@Column(name = "SCHOOL_SCHOOL_SEQ")
+//	private SchoolEntity schoolEntity;
 
 }

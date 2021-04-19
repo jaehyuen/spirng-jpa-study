@@ -35,13 +35,13 @@ public class SchoolEntity extends BaseEntity {
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
-	@OneToMany() // (1)
+	@OneToMany
 	@JoinColumn(name = "SCHOOL_SCHOOL_SEQ")
 	// @OneToMany(mappedBy="school")
 	private List<StudentEntity> studentEntityList = new ArrayList<StudentEntity>();
 
-	@OneToMany
-	@JoinColumn(name = "SCHOOL_SCHOOL_SEQ")
+	@OneToMany(mappedBy ="schoolEntity")
+//	@JoinColumn(name = "SCHOOL_SCHOOL_SEQ")
 	private List<TeacherEntity> teacherEntityList = new ArrayList<TeacherEntity>();
 
 }

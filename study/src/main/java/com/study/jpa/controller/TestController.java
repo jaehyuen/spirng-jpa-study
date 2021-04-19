@@ -20,10 +20,17 @@ public class TestController {
 		return "zzz";
 	}
 	
-	@GetMapping("/find")
-	public Object testFind() {
+	@GetMapping("/find/school")
+	public Object findeSchool() {
 		
-		return testService.testFind();
+		return testService.findeSchool();
+		
+	}
+	
+	@GetMapping("/find/teacher")
+	public Object findTeacher() {
+		
+		return testService.findTeacher();
 		
 	}
 }

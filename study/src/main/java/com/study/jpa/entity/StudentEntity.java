@@ -40,9 +40,9 @@ public class StudentEntity extends BaseEntity {
 	@Column(name = "GRADE", nullable = true)
 	private int grade;
 
-////	@ManyToOne(targetEntity = SchoolEntity.class)
-////	@JoinColumn(name = "SCHOOL_SCHOOL_SEQ")
+	@ManyToOne(targetEntity = SchoolEntity.class)
+	@JoinColumn(name = "SCHOOL_SCHOOL_SEQ")
 //	@Column(name = "SCHOOL_SCHOOL_SEQ")
-//	private SchoolEntity schoolEntity;
+	private SchoolEntity schoolEntity;
 
 }

@@ -55,7 +55,7 @@ public class TeacherEntity extends BaseEntity {
 	 * 단방향 관계     = 두 엔티티중에 한쪽만 참조하는 것
 	 * 양방향 관계     = 두 엔티티 양쪽이 참조하는 것
 	 * 
-     * 연관관계의 주인  = 외래키를 가지고있는 엔티티?, mappedBy 를 사용안하는 쪽이 주인이
+     * 연관관계의 주인  = 외래키를 가지고있는 엔티티?, mappedBy 를 사용안하는 쪽이 주인이됨
 	 * 
 	 * Many To One  = 다대일( N : 1 ) << 요건 항상 연관관계의 주인이 되기때문에 mappedBy 옵션이 없
 	 * One To Many  = 일대다( 1 : N )

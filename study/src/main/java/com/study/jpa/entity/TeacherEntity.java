@@ -67,16 +67,16 @@ public class TeacherEntity extends BaseEntity {
 	 * 
 	 * @SequenceGenerator 어노테이션 - GenerationType.SEQUNCE 전략 사용할때 시퀀스 생성시 사용
 	 * 
-	 * name (String)         = 시퀀스 생성기 이름 (필수값)
+	 * name (String)         = 시퀀스 생성기 명 (필수값)
 	 * allocationSize (int)  = 시퀀스 한 번 호출에 증가하는 수, 기본값은 50
 	 * sequenceName (String) = 디비에 등록되어 있는 시퀀스 이름
 	 * initialValue (int)    = 시퀀스 초기값, 기본값은 1
 	 * catalog (String)      = catalog 기능이 있는 디비에서 catalog를 맵핑, 기본값은 기본 catalog사용
 	 * schema (String)       = schema 기능이 있는 디비에서 schema를 맵핑, 기본값은 기본 schema사용
 	 * 
-	 * @TableGenerator 어노테이션 - GenerationType.TABLE 전략 사용할때 테이블 생성시 사
+	 * @TableGenerator 어노테이션 - GenerationType.TABLE 전략 사용할때 테이블 생성시 사용
 	 * 
-	 * name (String)          = 테이블 생성기 이름 (필수값)
+	 * name (String)          = 테이블 생성기  (필수값)
 	 * table (String)         = 테이블 명
 	 * 
 	 * allocationSize (int)   = 테이블의 키값 증가하는 수, 기본값은 50
@@ -100,15 +100,15 @@ public class TeacherEntity extends BaseEntity {
 	 * name (String)             = 변수명과 맵핑할 디비 컬럼명을 설정, 기본값은 필드명이다
 	 * 
 	 * insertable (boolean)      = 디비 컬럼 등록 가능 여부, 기본값은  true
-	 * updateable (boolean)      = 디비 컬럼 수정 가능 여부, 기본값 은 true
+	 * updateable (boolean)      = 디비 컬럼 수정 가능 여부, 기본값은 true
 	 * 
-	 * nullable (boolean)        = 디비 컬럼에 not null 제약조건 설정
-	 * unique (boolean)          = 디비 컬럼에 unique 제약조건 설정
+	 * nullable (boolean)        = 디비 컬럼에 not null 제약조건 설정, 기본값은 true
+	 * unique (boolean)          = 디비 컬럼에 unique 제약조건 설정, 기본값은 false
 	 * table (String)            = 다른테이블과 맵핑시 사용
 	 * 
 	 * length (int)              = 문자열 길이 설정(문자열 관련 컬럼에만 사용), 기본값은 255
-	 * precision (int)           = 소수점을 포함한 전체 자리수 설정 (demical 컬럼에서만 사용)
-	 * scale (int)               = 소수점의 자리수 설정 (demical 컬럼에서만 사용)
+	 * precision (int)           = 소수점을 포함한 전체 자리수 설정 (demical 컬럼에서만 사용), 기본값은 0
+	 * scale (int)               = 소수점의 자리수 설정 (demical 컬럼에서만 사용), 기본값은 0
 	 * 
 	 * ※ demical 컬럼은 자바에서 BigDecimal로 선언해야됨
 	 * 
@@ -137,10 +137,14 @@ public class TeacherEntity extends BaseEntity {
 	 * 
      * 연관관계의 주인  = 외래키를 가지고있는 엔티티?, mappedBy 를 사용안하는 쪽이 주인이됨
 	 * 
-	 * Many To One  = 다대일( N : 1 ) << 요건 항상 연관관계의 주인이 되기때문에 mappedBy 옵션이 없
+	 * Many To One  = 다대일( N : 1 ) << 요건 항상 연관관계의 주인이 되기때문에 mappedBy 옵션이 없음
 	 * One To Many  = 일대다( 1 : N )
+	 * - 일대다 단방향 에서는 일쪽이 연관관계의 주인이지만 테이블의 경우에는 다쪽에서 외래키를 가지고 있음 객체와 테이블의 차이 때문에 반대편 테이블에서 외래키를 관리함
+	 * - 일대다 단방향 에서 @JoinColumn 어노테이션을 사용하지 않으면 연결 테이블(조인 테이블)을 생성함
 	 * One To One   = 일대일( 1 : 1 ) 
 	 * Many To Many = 다대다( N : N )
+	 * - 디비에서는 다대다 관계를 표현 할 수 없음 그래 연결 테이블(조인 테이블)을 중간에 추가하여 일대다, 다대일 관계를 이용함
+	 * - @JoinTable 어노테이션으로 연결 테이블(조인 테이블) 지정 가능
 	 * 
 	 * 
 	 * 양방향 관계에서는 무조껀 다쪽에 외래키를 가지고있는다
@@ -155,13 +159,34 @@ public class TeacherEntity extends BaseEntity {
 	
 }
 
+
 /**
+ * 
+ * @ManyToMany 어노테이션 - 다대다( N : N ) 조인 맵핑시 사용 (권장하지 않는 방법)
+ * 
+ * targetEntity (Class)    = 연결 대상의 엔티티 설정, 기본값은 필드 타입
+ * 
+ * cascade (CascadeType[]) = 엔티티의 cascade 전략 설정
+ * fetch (FetchType)       = 엔티티의 fetch 전략 설정,기본값은 FetchType.LAZY
+ * 
+ * mappedBy (String)       = 연관관계의 역방항(주인이 아닌)엔티티에 설정, 양방향 맵핑에서 사용
+ * 
+ * @OneToMany 어노테이션 - 일대다( 1 : N ) 조인 맵핑시 사용 (권장하지 않는 방법)
+ * 
+ * targetEntity (Class)    = 연결 대상의 엔티티 설정, 기본값은 필드 타입
+ * 
+ * cascade (CascadeType[]) = 엔티티의 cascade 전략 설정
+ * fetch (FetchType)       = 엔티티의 fetch 전략 설정,기본값은 FetchType.LAZY
+ * 
+ * orphanRemoval (boolean) = 고아 객체를 삭제하는 설정, 기본값은 false
+ * mappedBy (String)       = 연관관계의 역방항(주인이 아닌)엔티티에 설정, 양방향 맵핑에서 사용
+ * 
  * @OneToOne 어노테이션 - 일대일( 1 : 1 ) 조인 맵핑시 사용
  * 
  * targetEntity (Class)    = 연결 대상의 엔티티 설정, 기본값은 필드 타입
  * optional (boolean)      = 연관관계가 항상 존재하는지 여부, 기본값은 true
  * orphanRemoval (boolean) = 고아 객체를 삭제하는 설정, 기본값은 false
- * mappedBy (String)       = 연관관계의 역방항(주인이 아닌)엔티티에 설정
+ * mappedBy (String)       = 연관관계의 역방항(주인이 아닌)엔티티에 설정, 양방향 맵핑에서 사용
  * 
  * cascade (CascadeType[]) = 엔티티의 cascade 전략 설정
  * fetch (FetchType)       = 엔티티의 fetch 전략 설정,기본값은 FetchType.EAGER
@@ -173,6 +198,46 @@ public class TeacherEntity extends BaseEntity {
  * 
  * cascade (CascadeType[]) = 엔티티의 cascade 전략 설정 (영속성 전이)
  * fetch (FetchType)       = 엔티티의 fetch 전략 설정,기본값은 FetchType.EAGER
+ * 
+ * @JoinTable 어노테이션 - 연결 테이블(조인 테이블) 설정
+ * 
+ * name (String)                           = 맵핑할 테이블 명, 기본값은 엔티티 명
+ * catalog (String)                        = catalog 기능이 있는 디비에서 catalog를 맵핑, 기본값은 기본 catalog사용
+ * schema (String)                         = schema 기능이 있는 디비에서 schema를 맵핑, 기본값은 기본 schema사용
+ * 
+ * joinColumns (JoinColumn[])              = 현제 엔티티를 참조하는 외래키 컬럼
+ * inverseJoinColumns (JoinColumn[])       = 반대방향 엔티티를 참조하는 외래키 컬럼
+ * 
+ * foreignKey (ForeignKey)                 = 현제 엔티티를 참조하는 외래키 제약조건 설정
+ * inverseForeignKey (ForeignKey)          = 반대방향 엔티티를 참조하는 외래키 제약조건 설정
+ * 
+ * 
+ * @JoinColumn 어노테이션 - 외래키를 맵핑시 사용
+ * 
+ * columnDefinition (String)     = 컬럼 정보를 직접 작성, 기본적으로 생성한 sql에 유추해서 집어넣는다..?
+ * name (String)                 = 맵핑할 외래키 명, "기본값은 필드명_참조하는 테이블의 기본키 컬럼명"
+ * referencedColumnName (String) = 외래키가 참조하는 대상 테이블의 컬럼명, 기본값은 잠조하는 기본키 컬럼 명
+ *   
+ * insertable (boolean)          = 디비 컬럼 등록 가능 여부, 기본값은  true
+ * updateable (boolean)          = 디비 컬럼 수정 가능 여부, 기본값은 true
+ * 
+ * nullable (boolean)            = 디비 컬럼에 not null 제약조건 설정, 기본값은 true
+ * unique (boolean)              = 디비 컬럼에 unique 제약조건 설정, 기본값은 false
+ * table (String)                = 다른테이블과 맵핑시 사용
+ * 
+ * foreignKey (ForeignKey)       = 외래키 제약조건 설정
+ * indexes (Index[])             = 테이블에 대한 인덱스 설정, 기본키 인덱스는 자동으로 생성됨
+ * 
+ * @ForeignKey 어노테이션 - ??
+ * name (String)                 = 이름
+ * value (ConstraintMode)        = 스키마 생성시 외래키 제약 조건 생성 여부 설정?
+ * foreignKeyDefinition (String) = 외래 키 제약 조건 정의?
+ * 
+ * ConstraintMode
+ * 
+ * ConstraintMode.CONSTRAINT       = 제약 조건 사용
+ * ConstraintMode.NO_CONSTRAINT    = 제약 조건이 생성되지 않음
+ * ConstraintMode.PROVIDER_DEFAULT = 공급자가 정의한 기본 동작을 사용?
  * 
  * CascadeType
  * 
@@ -192,13 +257,15 @@ public class TeacherEntity extends BaseEntity {
  * 
  * FetchType.EAGER = 연관 관계에 있는 엔티티를 한번에 조회
  * FetchType.LAZY  = 연관 관계에 있는 엔티티를 getter 사용시 조회
+ * 
+ * ※ orphanRemoval, cascade 차이점은 cascade는 jpa orphanRemoval은 디비에서 처리
  */
 
 /**
  * 영속성 컨텍스트란?
  * 
- * '엔티티를 영구 저장하는 환경' 이라는 뜻으로 애플리케이션과 디비사이에 엔티티를 보관하는 가상의 디비 역할을 한다.
- * 엔티티 매니저를 통해 엔티티를 저장, 조회시 엔티티 매니저는 영속성 컨텍스트에서 엔티티를 관리한다.
+ * '엔티티를 영구 저장하는 환경' 이라는 뜻으로 애플리케이션과 디비사이에 엔티티를 보관하는 가상의 디비 역할을 함
+ * 엔티티 매니저를 통해 엔티티를 저장, 조회시 엔티티 매니저는 영속성 컨텍스트에서 엔티티를 관리함
  * 
  * 엔티티의 생명주기
  * 
@@ -208,7 +275,7 @@ public class TeacherEntity extends BaseEntity {
  * 삭제 (removed)        - 엔티티를 영속성 컨텍스트와 데이터베이스에서 삭제된 상태
  *
  * 준영속 상태의 특징
- * 1차 캐시, 쓰기 지연, 변경 감지, 지연 로딩을 포함한 영속성 컨텍스트가 제공하는 어떠한 기능도 동작하지 않는다.
+ * 1차 캐시, 쓰기 지연, 변경 감지, 지연 로딩을 포함한 영속성 컨텍스트가 제공하는 어떠한 기능도 동작하지 않음
  * 식별자 값을 가지고 있다.
  *
  */

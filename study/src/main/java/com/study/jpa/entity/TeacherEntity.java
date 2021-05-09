@@ -152,7 +152,6 @@ public class TeacherEntity extends BaseEntity {
 	 * 양방향 관계에서 entity를 그대로 리턴하면 무한루프에 걸린다..
 	 */
 	
-	@OneToOne
 	@ManyToOne(targetEntity = SchoolEntity.class)
 	@JoinColumn(name = "SCHOOL_SCHOOL_SEQ")
 	private SchoolEntity schoolEntity;
@@ -201,15 +200,15 @@ public class TeacherEntity extends BaseEntity {
  * 
  * @JoinTable 어노테이션 - 연결 테이블(조인 테이블) 설정
  * 
- * name (String)                           = 맵핑할 테이블 명, 기본값은 엔티티 명
- * catalog (String)                        = catalog 기능이 있는 디비에서 catalog를 맵핑, 기본값은 기본 catalog사용
- * schema (String)                         = schema 기능이 있는 디비에서 schema를 맵핑, 기본값은 기본 schema사용
+ * name (String)                     = 맵핑할 테이블 명, 기본값은 엔티티 명
+ * catalog (String)                  = catalog 기능이 있는 디비에서 catalog를 맵핑, 기본값은 기본 catalog사용
+ * schema (String)                   = schema 기능이 있는 디비에서 schema를 맵핑, 기본값은 기본 schema사용
  * 
- * joinColumns (JoinColumn[])              = 현제 엔티티를 참조하는 외래키 컬럼
- * inverseJoinColumns (JoinColumn[])       = 반대방향 엔티티를 참조하는 외래키 컬럼
+ * joinColumns (JoinColumn[])        = 현제 엔티티를 참조하는 외래키 컬럼
+ * inverseJoinColumns (JoinColumn[]) = 반대방향 엔티티를 참조하는 외래키 컬럼
  * 
- * foreignKey (ForeignKey)                 = 현제 엔티티를 참조하는 외래키 제약조건 설정
- * inverseForeignKey (ForeignKey)          = 반대방향 엔티티를 참조하는 외래키 제약조건 설정
+ * foreignKey (ForeignKey)           = 현제 엔티티를 참조하는 외래키 제약조건 설정
+ * inverseForeignKey (ForeignKey)    = 반대방향 엔티티를 참조하는 외래키 제약조건 설정
  * 
  * 
  * @JoinColumn 어노테이션 - 외래키를 맵핑시 사용
@@ -229,6 +228,7 @@ public class TeacherEntity extends BaseEntity {
  * indexes (Index[])             = 테이블에 대한 인덱스 설정, 기본키 인덱스는 자동으로 생성됨
  * 
  * @ForeignKey 어노테이션 - ??
+ * 
  * name (String)                 = 이름
  * value (ConstraintMode)        = 스키마 생성시 외래키 제약 조건 생성 여부 설정?
  * foreignKeyDefinition (String) = 외래 키 제약 조건 정의?
